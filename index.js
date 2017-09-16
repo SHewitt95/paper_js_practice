@@ -8,8 +8,8 @@ Circle.prototype = {
 
   draw: function() {
     var path = new Path.Circle({
-      center: this.center,
-      radius: this.radius,
+      center: this.center || view.center,
+      radius: this.radius || 50,
       strokeColor: 'black'
     })
     this.path = path;
@@ -17,8 +17,10 @@ Circle.prototype = {
   }
 }
 
-var myCircle = new Circle([100,0], 100).draw();
+var myCircle = new Circle([100,0], 200).draw();
+var myCircle2 = new Circle().draw();
 
 function onMouseMove(event) {
   myCircle.path.setPosition(event.event.x, event.event.y);
+  myCircle2.path.setPosition(event.event.x + myCircle.radius, event.event.y + myCircle.radius);
 }
