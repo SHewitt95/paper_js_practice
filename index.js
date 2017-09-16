@@ -1,26 +1,34 @@
-function Circle(center, radius) {
+function Polygon(center, sides, radius) {
   this.center = center;
   this.radius = radius;
+  this.sides = sides;
+  this.states = {
+    idle: {active: false, target: 'selected'},
+    selected: {active: true, target: 'idle'}
+  };
+  this.state = this.states.idle;
 };
 
-Circle.prototype = {
-  constructor: Circle,
+Polygon.prototype = {
+  constructor: Polygon,
 
   draw: function() {
-    var path = new Path.Circle({
+    var path = new Path.RegularPolygon({
       center: this.center || view.center,
       radius: this.radius || 50,
-      strokeColor: 'black'
+      sides: this.sides || 4,
+      strokeColor: 'black',
+      fillColor: 'white'
     })
     this.path = path;
+
+    this.path.onMouseDown = function (event) {
+      console.log(event.toString());
+    }
+
     return this;
-  }
+  },
+
 }
 
-var myCircle = new Circle([100,0], 200).draw();
-var myCircle2 = new Circle().draw();
-
-function onMouseMove(event) {
-  myCircle.path.setPosition(event.event.x, event.event.y);
-  myCircle2.path.setPosition(event.event.x + myCircle.radius, event.event.y + myCircle.radius);
-}
+var myShape = new Polygon(view.center, 3, 100).draw();
